@@ -1,0 +1,1025 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Eddy Trejo | Software Engineering & High-End Design</title>
+  <meta name="description" content="Ingeniería de Sistemas aplicada al diseño de alto impacto. Soluciones Full-Stack robustas y estéticas premium. De Maracay para el mundo." />
+  <meta name="author" content="Eddy Trejo" />
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  
+  <!-- Devicons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css" />
+  
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            dark: '#0a0a0f',
+            darker: '#050508',
+            accent: '#ff0055',
+            'accent-blue': '#0055ff',
+            'accent-purple': '#7c3aed',
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+            display: ['Montserrat', 'Inter', 'sans-serif'],
+          },
+          animation: {
+            'marquee': 'marquee 30s linear infinite',
+            'marquee-reverse': 'marquee-reverse 30s linear infinite',
+            'float': 'float 6s ease-in-out infinite',
+            'pulse-slow': 'pulse 4s ease-in-out infinite',
+          },
+          keyframes: {
+            marquee: {
+              '0%': { transform: 'translateX(0)' },
+              '100%': { transform: 'translateX(-50%)' },
+            },
+            'marquee-reverse': {
+              '0%': { transform: 'translateX(-50%)' },
+              '100%': { transform: 'translateX(0)' },
+            },
+            float: {
+              '0%, 100%': { transform: 'translateY(0)' },
+              '50%': { transform: 'translateY(-20px)' },
+            },
+          },
+        },
+      },
+    }
+  </script>
+  
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', system-ui, sans-serif; background-color: #0a0a0f; color: white; overflow-x: hidden; }
+    
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: #050508; }
+    ::-webkit-scrollbar-thumb { background: #ff0055; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #ff1a6b; }
+    ::selection { background: #ff0055; color: white; }
+    
+    .text-outline { -webkit-text-stroke: 2px white; -webkit-text-fill-color: transparent; }
+    .text-outline-thin { -webkit-text-stroke: 1px white; -webkit-text-fill-color: transparent; }
+    
+    .skew-btn { transform: skewX(-12deg); }
+    .skew-btn > * { transform: skewX(12deg); display: inline-block; }
+    
+    @keyframes gradientShift {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+    }
+    .animate-gradient { animation: gradientShift 9s ease-in-out infinite; background-size: 300% 300%; }
+    
+    .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s ease-out; }
+    .reveal.active { opacity: 1; transform: translateY(0); }
+    
+    .menu-link { opacity: 0; transform: translateX(-40px); transition: all 0.5s ease; }
+    .menu-open .menu-link { opacity: 1; transform: translateX(0); }
+    .menu-open .menu-link:nth-child(1) { transition-delay: 0.1s; }
+    .menu-open .menu-link:nth-child(2) { transition-delay: 0.18s; }
+    .menu-open .menu-link:nth-child(3) { transition-delay: 0.26s; }
+    .menu-open .menu-link:nth-child(4) { transition-delay: 0.34s; }
+    
+    .hero-text { opacity: 0; transform: translateY(100%); transition: all 1s cubic-bezier(0.16, 1, 0.3, 1); }
+    .hero-loaded .hero-text { opacity: 1; transform: translateY(0); }
+
+    /* ===== MACBOOK MOCKUP ===== */
+    .macbook-mockup {
+      position: relative;
+      width: 100%;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    
+    .macbook-screen {
+      position: relative;
+      background: #1a1a1a;
+      border-radius: 18px 18px 0 0;
+      padding: 12px 12px 0 12px;
+      box-shadow: 
+        0 0 0 2px #333,
+        0 0 0 4px #1a1a1a,
+        0 20px 60px rgba(0,0,0,0.8);
+    }
+    
+    .macbook-screen::before {
+      content: '';
+      position: absolute;
+      top: 6px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 8px;
+      height: 8px;
+      background: #333;
+      border-radius: 50%;
+      z-index: 10;
+    }
+    
+    .macbook-display {
+      background: #000;
+      border-radius: 8px;
+      overflow: hidden;
+      aspect-ratio: 16/10;
+    }
+    
+    .macbook-display img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    
+    .macbook-base {
+      position: relative;
+      height: 18px;
+      background: linear-gradient(180deg, #c4c4c4 0%, #a0a0a0 50%, #8a8a8a 100%);
+      border-radius: 0 0 12px 12px;
+      box-shadow: 
+        0 10px 30px rgba(0,0,0,0.5),
+        inset 0 1px 0 rgba(255,255,255,0.3);
+    }
+    
+    .macbook-base::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 6px;
+      background: linear-gradient(180deg, #999 0%, #777 100%);
+      border-radius: 0 0 6px 6px;
+    }
+    
+    .macbook-base::after {
+      content: '';
+      position: absolute;
+      bottom: -8px;
+      left: 5%;
+      right: 5%;
+      height: 8px;
+      background: linear-gradient(180deg, rgba(0,0,0,0.2) 0%, transparent 100%);
+      border-radius: 50%;
+      filter: blur(4px);
+    }
+
+    /* ===== iMAC MOCKUP ===== */
+    .imac-mockup {
+      position: relative;
+      width: 100%;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    
+    .imac-screen {
+      position: relative;
+      background: #1a1a1a;
+      border-radius: 20px;
+      padding: 14px;
+      box-shadow: 
+        0 0 0 2px #333,
+        0 0 0 4px #1a1a1a,
+        0 30px 80px rgba(0,0,0,0.6);
+    }
+    
+    .imac-screen::before {
+      content: '';
+      position: absolute;
+      top: 8px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 10px;
+      height: 10px;
+      background: #2a2a2a;
+      border-radius: 50%;
+      z-index: 10;
+    }
+    
+    .imac-display {
+      background: #000;
+      border-radius: 12px;
+      overflow: hidden;
+      aspect-ratio: 16/10;
+    }
+    
+    .imac-display img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    
+    .imac-stand {
+      position: relative;
+      width: 120px;
+      height: 80px;
+      margin: 0 auto;
+      background: linear-gradient(180deg, #d0d0d0 0%, #b0b0b0 50%, #909090 100%);
+      clip-path: polygon(20% 0%, 80% 0%, 100% 100%, 0% 100%);
+    }
+    
+    .imac-base {
+      width: 200px;
+      height: 12px;
+      margin: 0 auto;
+      background: linear-gradient(180deg, #c0c0c0 0%, #a0a0a0 100%);
+      border-radius: 6px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+    }
+
+    /* ===== IPHONE MOCKUP ===== */
+    .iphone-mockup {
+      position: relative;
+      width: 100%;
+      max-width: 220px;
+      margin: 0 auto;
+    }
+    
+    .iphone-frame {
+      position: relative;
+      background: linear-gradient(145deg, #2a2a2a 0%, #1a1a1a 100%);
+      border-radius: 45px;
+      padding: 10px;
+      box-shadow: 
+        0 0 0 2px #3a3a3a,
+        0 0 0 4px #1a1a1a,
+        0 25px 60px rgba(0,0,0,0.6),
+        inset 0 1px 0 rgba(255,255,255,0.1);
+    }
+    
+    .iphone-frame::before {
+      content: '';
+      position: absolute;
+      top: 14px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 90px;
+      height: 24px;
+      background: #000;
+      border-radius: 12px;
+      z-index: 10;
+    }
+    
+    .iphone-screen {
+      background: #000;
+      border-radius: 35px;
+      overflow: hidden;
+      aspect-ratio: 9/19.5;
+    }
+    
+    .iphone-screen img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    
+    .iphone-buttons {
+      position: absolute;
+      right: -3px;
+      top: 100px;
+      width: 3px;
+      height: 30px;
+      background: #2a2a2a;
+      border-radius: 0 2px 2px 0;
+    }
+    
+    .iphone-buttons::before {
+      content: '';
+      position: absolute;
+      right: 0;
+      top: 40px;
+      width: 3px;
+      height: 60px;
+      background: #2a2a2a;
+      border-radius: 0 2px 2px 0;
+    }
+    
+    .iphone-buttons::after {
+      content: '';
+      position: absolute;
+      left: -226px;
+      top: 20px;
+      width: 3px;
+      height: 25px;
+      background: #2a2a2a;
+      border-radius: 2px 0 0 2px;
+    }
+
+    /* Tech icon hover */
+    .tech-item:hover i {
+      color: #ff0055;
+      transform: scale(1.1);
+    }
+    
+    .stat-card {
+      background: linear-gradient(135deg, rgba(255, 0, 85, 0.1) 0%, rgba(124, 58, 237, 0.1) 100%);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 16px;
+      padding: 24px;
+      text-align: center;
+    }
+    
+    .process-step {
+      position: relative;
+      padding-left: 40px;
+    }
+    
+    .process-step::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 24px;
+      height: 24px;
+      background: #ff0055;
+      border-radius: 50%;
+    }
+    
+    .process-step::after {
+      content: '';
+      position: absolute;
+      left: 11px;
+      top: 24px;
+      width: 2px;
+      height: calc(100% - 24px);
+      background: linear-gradient(to bottom, #ff0055, transparent);
+    }
+    
+    .process-step:last-child::after {
+      display: none;
+    }
+
+    /* Project Modal */
+    .project-modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: #0a0a0f;
+      z-index: 100;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.6s ease;
+      overflow-y: auto;
+    }
+    
+    .project-modal-overlay.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+    
+    .modal-close-btn {
+      position: fixed;
+      top: 24px;
+      right: 24px;
+      z-index: 101;
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    .modal-close-btn:hover {
+      background: #ff0055;
+      border-color: #ff0055;
+      transform: rotate(90deg);
+    }
+    
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+    
+    .gallery-grid img {
+      width: 100%;
+      height: 300px;
+      object-fit: cover;
+      border-radius: 12px;
+      transition: transform 0.3s ease;
+    }
+    
+    .gallery-grid img:hover {
+      transform: scale(1.02);
+    }
+    
+    .gallery-grid img:first-child {
+      grid-column: span 2;
+      height: 500px;
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-500 bg-transparent">
+    <div class="flex items-center justify-between px-6 lg:px-12 py-5">
+      <a href="#" class="text-xl font-bold tracking-tight z-50">ET<span class="text-accent">.</span></a>
+      <button id="menu-toggle" class="flex items-center gap-3 z-50 group" aria-label="Abrir menú">
+        <span class="text-xs font-medium tracking-widest uppercase hidden sm:block" id="menu-text">Menú</span>
+        <div class="relative w-6 h-6 flex flex-col justify-center gap-1.5">
+          <span class="bar w-6 h-0.5 bg-white transition-all duration-300"></span>
+          <span class="bar w-6 h-0.5 bg-white transition-all duration-300"></span>
+        </div>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Fullscreen Menu -->
+  <div id="fullscreen-menu" class="fixed inset-0 z-40 bg-dark transition-all duration-700 pointer-events-none" style="clip-path: circle(0% at calc(100% - 60px) 40px);">
+    <div class="h-full flex flex-col justify-center px-8 lg:px-24">
+      <div class="max-w-6xl mx-auto w-full">
+        <div class="grid lg:grid-cols-2 gap-12 lg:gap-24 items-center">
+          <div class="flex flex-col gap-2">
+            <a href="#projects" class="menu-link group relative text-5xl sm:text-6xl lg:text-7xl font-black uppercase tracking-tighter transition-all duration-500 hover:text-accent">Proyectos</a>
+            <a href="#about" class="menu-link group relative text-5xl sm:text-6xl lg:text-7xl font-black uppercase tracking-tighter transition-all duration-500 hover:text-accent">Sobre mí</a>
+            <a href="#stack" class="menu-link group relative text-5xl sm:text-6xl lg:text-7xl font-black uppercase tracking-tighter transition-all duration-500 hover:text-accent">Stack</a>
+            <a href="#contact" class="menu-link group relative text-5xl sm:text-6xl lg:text-7xl font-black uppercase tracking-tighter transition-all duration-500 hover:text-accent">Contacto</a>
+          </div>
+          <div class="hidden lg:block opacity-0 transition-all duration-700" id="menu-portrait">
+            <div class="relative">
+              <div class="aspect-[3/4] max-w-sm mx-auto rounded-lg overflow-hidden border-2 border-white/10">
+                <img src="assets/images/eddy-portrait.png" alt="Eddy Trejo" class="w-full h-full object-cover object-top">
+              </div>
+              <div class="mt-6 flex justify-center gap-6">
+                <a href="https://github.com/eddyjosuetr-coder" target="_blank" rel="noopener noreferrer" class="text-sm text-white/50 hover:text-white transition-colors flex items-center gap-2">
+                  <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.604-3.369-1.341-3.369-1.341-.454-1.155-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836c.85.004 1.705.115 2.504.337 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.741 0 .267.18.578.688.48C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>
+                  GitHub
+                </a>
+                <a href="https://linkedin.com/in/eddy-trejo-180002315/" target="_blank" rel="noopener noreferrer" class="text-sm text-white/50 hover:text-white transition-colors flex items-center gap-2">
+                  <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                  LinkedIn
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="absolute bottom-8 left-8 right-8 flex justify-between text-xs text-white/40 tracking-widest opacity-0 transition-opacity duration-500" id="menu-footer">
+      <span>eddyjosuetr@gmail.com</span>
+      <span>© 2026 Eddy Trejo</span>
+    </div>
+  </div>
+
+  <!-- Hero Section -->
+  <section id="hero" class="relative min-h-screen flex items-center overflow-hidden">
+    <div class="absolute inset-0 z-0 animate-gradient" style="background: linear-gradient(160deg, #03007a 0%, #1d4ed8 25%, #4338ca 50%, #7c3aed 70%, #a5b4fc 90%, #818cf8 100%); clip-path: polygon(0 0, 65% 0, 35% 100%, 0% 100%);"></div>
+    <div class="absolute inset-0 z-0 opacity-30" style="background: radial-gradient(ellipse at 20% 40%, rgba(255,255,255,.25) 0%, transparent 45%), radial-gradient(ellipse at 70% 70%, rgba(255,255,255,.15) 0%, transparent 40%), radial-gradient(ellipse at 50% 10%, rgba(130,160,255,.25) 0%, transparent 38%); clip-path: polygon(0 0, 65% 0, 35% 100%, 0% 100%);"></div>
+    <div class="absolute top-20 right-20 w-96 h-96 bg-accent/10 rounded-full blur-[100px] animate-float"></div>
+    <div class="absolute bottom-20 left-20 w-72 h-72 bg-accent-purple/10 rounded-full blur-[80px] animate-float" style="animation-delay: -3s;"></div>
+
+    <div class="relative z-10 w-full px-6 lg:px-16 py-24">
+      <div class="max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 items-center">
+        <div class="space-y-8">
+          <div class="inline-flex items-center gap-3 opacity-0" id="hero-badge">
+            <span class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
+            <span class="text-xs font-bold tracking-[0.3em] uppercase text-white/70">Disponible para proyectos</span>
+          </div>
+          <h1 class="space-y-1 overflow-hidden">
+            <span class="block text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-black uppercase tracking-tighter hero-text" style="transition-delay: 0.1s;">Tengo una</span>
+            <span class="block text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-black uppercase tracking-tighter hero-text" style="transition-delay: 0.2s;">misión:</span>
+            <span class="block text-5xl sm:text-6xl lg:text-7xl xl:text-8xl font-black uppercase tracking-tighter text-outline hero-text" style="transition-delay: 0.3s;">Maximizar</span>
+            <span class="block text-5xl sm:text-6xl lg:text-7xl xl:text-8xl font-black uppercase tracking-tighter hero-text" style="transition-delay: 0.4s;">tu potencial<span class="text-accent">.</span></span>
+          </h1>
+          <p class="text-lg text-white/70 max-w-md leading-relaxed opacity-0" id="hero-subtitle">
+            Ingeniería de Software aplicada al diseño de alto impacto.<br>
+            <span class="text-white font-medium">De Maracay para el mundo.</span>
+          </p>
+          <a href="#projects" class="inline-flex items-center gap-3 text-sm font-bold tracking-[0.2em] uppercase border-b-2 border-accent pb-2 hover:gap-5 transition-all duration-500 opacity-0" id="hero-cta">
+            Ver proyectos
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+          </a>
+        </div>
+        <div class="hidden lg:block h-[600px] opacity-0" id="particle-container">
+          <canvas id="particle-canvas" class="w-full h-full" style="cursor: crosshair;"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <div class="absolute bottom-8 left-6 lg:left-16 flex flex-col items-start gap-3 opacity-0" id="scroll-indicator">
+      <span class="text-xs tracking-[0.3em] uppercase text-white/40">Scroll</span>
+      <div class="w-px h-12 bg-gradient-to-b from-accent to-transparent"></div>
+    </div>
+
+    <div class="absolute bottom-8 right-6 lg:right-16 flex items-center gap-6 opacity-0" id="hero-socials">
+      <a href="https://github.com/eddyjosuetr-coder" target="_blank" rel="noopener noreferrer" class="text-white/40 hover:text-white transition-colors">
+        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.604-3.369-1.341-3.369-1.341-.454-1.155-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836c.85.004 1.705.115 2.504.337 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.741 0 .267.18.578.688.48C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>
+      </a>
+      <a href="https://linkedin.com/in/eddy-trejo-180002315/" target="_blank" rel="noopener noreferrer" class="text-white/40 hover:text-white transition-colors">
+        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+      </a>
+    </div>
+  </section>
+
+  <!-- Attention Section -->
+  <section id="attention" class="relative py-32 lg:py-48 overflow-hidden">
+    <div class="absolute inset-0 z-0 animate-gradient" style="background: linear-gradient(160deg, #03007a 0%, #1d4ed8 25%, #4338ca 50%, #7c3aed 70%, #a5b4fc 90%, #818cf8 100%); clip-path: polygon(25% 0, 100% 0, 100% 100%, 0% 100%);"></div>
+    <div class="relative z-10 max-w-7xl mx-auto px-6 lg:px-16">
+      <div class="grid lg:grid-cols-2 gap-12 lg:gap-24 items-center">
+        <div>
+          <h2 class="text-5xl sm:text-6xl lg:text-7xl xl:text-8xl font-black leading-[0.9] reveal">
+            <span class="block">Solo tienes</span>
+            <span class="block"><span class="text-accent">3</span> segundos</span>
+          </h2>
+        </div>
+        <div class="space-y-6 reveal">
+          <p class="text-xl lg:text-2xl text-white/80 leading-relaxed">Para captar la atención de tu cliente.</p>
+          <p class="text-lg text-white/60 leading-relaxed">Soy <span class="text-white font-semibold">Eddy Trejo</span>, y juntos nos aseguraremos de que eso suceda.</p>
+          <p class="text-white/40">Ingeniero de Sistemas especializado en crear experiencias digitales que dejan huella.</p>
+        </div>
+      </div>
+    </div>
+    <div class="absolute left-1/4 top-1/2 -translate-y-1/2 w-64 h-64 border border-white/10 rounded-full reveal"></div>
+  </section>
+
+  <!-- Responsive Showcase Section -->
+  <section id="showcase" class="relative py-24 lg:py-32 overflow-hidden">
+    <div class="max-w-7xl mx-auto px-6 lg:px-16">
+      <div class="text-center mb-16 reveal">
+        <span class="text-accent text-xs font-bold tracking-[0.3em] uppercase mb-4 block">Diseño Responsive</span>
+        <h2 class="text-4xl sm:text-5xl lg:text-6xl font-black uppercase tracking-tighter mb-6">
+          Tu proyecto en <span class="text-outline">cualquier dispositivo</span>
+        </h2>
+        <p class="text-lg text-white/60 max-w-2xl mx-auto">
+          Cada proyecto está diseñado para verse perfecto en desktop, tablet y móvil. 
+          Experiencias fluidas sin importar el tamaño de pantalla.
+        </p>
+      </div>
+      
+      <!-- Website Preview (no device frame) -->
+      <div class="mb-12 reveal">
+        <div class="relative rounded-2xl overflow-hidden border border-white/10 shadow-2xl shadow-black/50">
+          <img src="assets/images/portfolio-web.png" alt="Portfolio website preview" class="w-full">
+        </div>
+      </div>
+      
+      <!-- Device Mockups -->
+      <div class="mb-16 reveal">
+        <div class="grid md:grid-cols-3 gap-8 items-end">
+          <!-- Desktop -->
+          <div class="text-center">
+            <p class="text-xs text-white/40 uppercase tracking-wider mb-4">Desktop</p>
+            <img src="assets/images/portfolio-desktop.png" alt="Portfolio on desktop" class="w-full rounded-lg shadow-lg">
+          </div>
+          <!-- Tablet -->
+          <div class="text-center">
+            <p class="text-xs text-white/40 uppercase tracking-wider mb-4">Tablet</p>
+            <img src="assets/images/portfolio-tablet.png" alt="Portfolio on tablet" class="w-full rounded-lg shadow-lg">
+          </div>
+          <!-- Mobile -->
+          <div class="text-center">
+            <p class="text-xs text-white/40 uppercase tracking-wider mb-4">Mobile</p>
+            <img src="assets/images/portfolio-mobile.png" alt="Portfolio on mobile" class="w-full max-w-[200px] mx-auto rounded-lg shadow-lg">
+          </div>
+        </div>
+      </div>
+      
+      <!-- Device features -->
+      <div class="grid sm:grid-cols-3 gap-8 reveal">
+        <div class="text-center space-y-4">
+          <div class="w-16 h-16 mx-auto bg-white/5 border border-white/10 rounded-2xl flex items-center justify-center">
+            <svg class="w-8 h-8 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+            </svg>
+          </div>
+          <h3 class="font-bold text-lg">Desktop</h3>
+          <p class="text-white/60 text-sm">Experiencia completa con todas las funcionalidades y vistas detalladas.</p>
+        </div>
+        <div class="text-center space-y-4">
+          <div class="w-16 h-16 mx-auto bg-white/5 border border-white/10 rounded-2xl flex items-center justify-center">
+            <svg class="w-8 h-8 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"/>
+            </svg>
+          </div>
+          <h3 class="font-bold text-lg">Tablet</h3>
+          <p class="text-white/60 text-sm">Diseño adaptado que aprovecha el espacio extra con layouts optimizados.</p>
+        </div>
+        <div class="text-center space-y-4">
+          <div class="w-16 h-16 mx-auto bg-white/5 border border-white/10 rounded-2xl flex items-center justify-center">
+            <svg class="w-8 h-8 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"/>
+            </svg>
+          </div>
+          <h3 class="font-bold text-lg">Mobile</h3>
+          <p class="text-white/60 text-sm">Interfaz simplificada con navegación táctil y contenido priorizado.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Projects Section -->
+  <section id="projects" class="relative py-24 lg:py-32">
+    <div class="max-w-7xl mx-auto px-6 lg:px-16 mb-16">
+      <div class="flex items-center gap-4 mb-6 reveal">
+        <div class="w-12 h-px bg-accent"></div>
+        <span class="text-accent text-xs font-bold tracking-[0.3em] uppercase">Case Studies</span>
+      </div>
+      <h2 class="text-4xl sm:text-5xl lg:text-6xl font-black uppercase tracking-tighter reveal">Proyectos<span class="text-accent">.</span></h2>
+    </div>
+
+    <div class="max-w-7xl mx-auto px-6 lg:px-16" id="projects-container">
+      <!-- Projects injected by JS -->
+    </div>
+
+    <div class="max-w-7xl mx-auto px-6 lg:px-16 mt-16 reveal">
+      <button class="skew-btn inline-flex items-center gap-3 bg-white/5 hover:bg-white/10 border border-white/20 px-10 py-5 text-sm font-bold tracking-[0.2em] uppercase transition-all duration-300 group">
+        <span>Ver todos los proyectos</span>
+        <svg class="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+      </button>
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section id="about" class="relative py-32 lg:py-48 overflow-hidden">
+    <div class="absolute inset-0 bg-darker"></div>
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[20vw] font-black text-white/[0.02] uppercase tracking-tighter whitespace-nowrap pointer-events-none">Historia</div>
+    <div class="relative z-10 max-w-7xl mx-auto px-6 lg:px-16">
+      <div class="grid lg:grid-cols-2 gap-16 lg:gap-24 items-center">
+        <div>
+          <div class="flex items-center gap-4 mb-8 reveal">
+            <div class="w-12 h-px bg-accent"></div>
+            <span class="text-accent text-xs font-bold tracking-[0.3em] uppercase">Sobre mí</span>
+          </div>
+          <h2 class="space-y-2">
+            <span class="block text-5xl sm:text-6xl lg:text-7xl font-black uppercase tracking-tighter reveal">Una historia</span>
+            <span class="block text-5xl sm:text-6xl lg:text-7xl font-black uppercase tracking-tighter reveal">que vale la</span>
+            <span class="block text-5xl sm:text-6xl lg:text-7xl font-black uppercase tracking-tighter text-outline reveal">pena contar<span class="text-accent">.</span></span>
+          </h2>
+        </div>
+        <div class="space-y-8 reveal">
+          <div class="aspect-[3/4] max-w-sm rounded-lg overflow-hidden border-2 border-white/10 shadow-2xl shadow-accent/10">
+            <img src="assets/images/eddy-portrait.png" alt="Eddy Trejo - Software Engineer" class="w-full h-full object-cover object-top">
+          </div>
+          <div class="space-y-4">
+            <p class="text-lg text-white/80 leading-relaxed">No me limito a construir software que funciona — construyo experiencias que se sienten. Cada línea de código y cada decisión de diseño está pensada para generar resultados reales.</p>
+            <p class="text-white/60 leading-relaxed">La intersección entre <span class="text-white font-semibold">ingeniería de alto rendimiento</span> y <span class="text-white font-semibold">diseño de impacto visual</span> es donde vivo.</p>
+          </div>
+          <div class="flex gap-12 pt-6 border-t border-white/10">
+            <div><span class="block text-4xl font-black text-accent">8+</span><span class="text-sm text-white/50 uppercase tracking-wider">Proyectos</span></div>
+            <div><span class="block text-4xl font-black text-accent">2</span><span class="text-sm text-white/50 uppercase tracking-wider">Años exp.</span></div>
+            <div><span class="block text-4xl font-black text-accent">∞</span><span class="text-sm text-white/50 uppercase tracking-wider">Estándares</span></div>
+          </div>
+          <a href="#contact" class="inline-flex items-center gap-3 text-sm font-bold tracking-[0.2em] uppercase text-accent hover:text-white transition-colors group pt-4">
+            Trabajemos juntos
+            <svg class="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stack Section -->
+  <section id="stack" class="relative py-24 lg:py-32 overflow-hidden">
+    <div class="overflow-hidden py-6 border-y border-white/5 bg-white/[0.02]">
+      <div class="animate-marquee whitespace-nowrap flex">
+        <span class="mx-8 text-sm font-bold tracking-[0.3em] uppercase text-white/30">HTML5</span>
+        <span class="mx-8 text-sm font-bold tracking-[0.3em] uppercase text-white/30">CSS3</span>
+        <span class="mx-8 text-sm font-bold tracking-[0.3em] uppercase text-white/30">JAVASCRIPT</span>
+        <span class="mx-8 text-sm font-bold tracking-[0.3em] uppercase text-white/30">REACT</span>
+        <span class="mx-8 text-sm font-bold tracking-[0.3em] uppercase text-white/30">NEXT.JS</span>
+        <span class="mx-8 text-sm font-bold tracking-[0.3em] uppercase text-white/30">TYPESCRIPT</span>
+        <span class="mx-8 text-sm font-bold tracking-[0.3em] uppercase text-white/30">TAILWIND</span>
+        <span class="mx-8 text-sm font-bold tracking-[0.3em] uppercase text-white/30">NODE.JS</span>
+        <span class="mx-8 text-sm font-bold tracking-[0.3em] uppercase text-white/30">PYTHON</span>
+        <span class="mx-8 text-sm font-bold tracking-[0.3em] uppercase text-white/30">POSTGRESQL</span>
+        <span class="mx-8 text-sm font-bold tracking-[0.3em] uppercase text-white/30">MONGODB</span>
+        <span class="mx-8 text-sm font-bold tracking-[0.3em] uppercase text-white/30">FIGMA</span>
+        <span class="mx-8 text-sm font-bold tracking-[0.3em] uppercase text-white/30">DOCKER</span>
+        <span class="mx-8 text-sm font-bold tracking-[0.3em] uppercase text-white/30">AWS</span>
+        <span class="mx-8 text-sm font-bold tracking-[0.3em] uppercase text-white/30">GIT</span>
+      </div>
+    </div>
+
+    <div class="max-w-7xl mx-auto px-6 lg:px-16 py-16 lg:py-24">
+      <div class="mb-16">
+        <div class="flex items-center gap-4 mb-6 reveal">
+          <div class="w-12 h-px bg-accent"></div>
+          <span class="text-accent text-xs font-bold tracking-[0.3em] uppercase">Competencias</span>
+        </div>
+        <h2 class="text-4xl sm:text-5xl lg:text-6xl font-black uppercase tracking-tighter reveal">Mi Stack<span class="text-accent">.</span></h2>
+      </div>
+
+      <div class="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-6 gap-4 lg:gap-6 reveal" id="tech-grid">
+        <div class="tech-item group relative bg-white/5 hover:bg-white/10 rounded-xl p-6 transition-all duration-300 hover:-translate-y-2 border border-white/5 hover:border-accent/30">
+          <div class="flex flex-col items-center gap-4">
+            <i class="devicon-html5-plain text-5xl text-white/70 group-hover:text-[#E34F26] transition-all duration-300"></i>
+            <span class="text-sm font-medium text-white/60 group-hover:text-white transition-colors">HTML5</span>
+          </div>
+        </div>
+        <div class="tech-item group relative bg-white/5 hover:bg-white/10 rounded-xl p-6 transition-all duration-300 hover:-translate-y-2 border border-white/5 hover:border-accent/30">
+          <div class="flex flex-col items-center gap-4">
+            <i class="devicon-css3-plain text-5xl text-white/70 group-hover:text-[#1572B6] transition-all duration-300"></i>
+            <span class="text-sm font-medium text-white/60 group-hover:text-white transition-colors">CSS3</span>
+          </div>
+        </div>
+        <div class="tech-item group relative bg-white/5 hover:bg-white/10 rounded-xl p-6 transition-all duration-300 hover:-translate-y-2 border border-white/5 hover:border-accent/30">
+          <div class="flex flex-col items-center gap-4">
+            <i class="devicon-javascript-plain text-5xl text-white/70 group-hover:text-[#F7DF1E] transition-all duration-300"></i>
+            <span class="text-sm font-medium text-white/60 group-hover:text-white transition-colors">JavaScript</span>
+          </div>
+        </div>
+        <div class="tech-item group relative bg-white/5 hover:bg-white/10 rounded-xl p-6 transition-all duration-300 hover:-translate-y-2 border border-white/5 hover:border-accent/30">
+          <div class="flex flex-col items-center gap-4">
+            <i class="devicon-react-original text-5xl text-white/70 group-hover:text-[#61DAFB] transition-all duration-300"></i>
+            <span class="text-sm font-medium text-white/60 group-hover:text-white transition-colors">React</span>
+          </div>
+        </div>
+        <div class="tech-item group relative bg-white/5 hover:bg-white/10 rounded-xl p-6 transition-all duration-300 hover:-translate-y-2 border border-white/5 hover:border-accent/30">
+          <div class="flex flex-col items-center gap-4">
+            <i class="devicon-nextjs-plain text-5xl text-white/70 group-hover:text-white transition-all duration-300"></i>
+            <span class="text-sm font-medium text-white/60 group-hover:text-white transition-colors">Next.js</span>
+          </div>
+        </div>
+        <div class="tech-item group relative bg-white/5 hover:bg-white/10 rounded-xl p-6 transition-all duration-300 hover:-translate-y-2 border border-white/5 hover:border-accent/30">
+          <div class="flex flex-col items-center gap-4">
+            <i class="devicon-typescript-plain text-5xl text-white/70 group-hover:text-[#3178C6] transition-all duration-300"></i>
+            <span class="text-sm font-medium text-white/60 group-hover:text-white transition-colors">TypeScript</span>
+          </div>
+        </div>
+        <div class="tech-item group relative bg-white/5 hover:bg-white/10 rounded-xl p-6 transition-all duration-300 hover:-translate-y-2 border border-white/5 hover:border-accent/30">
+          <div class="flex flex-col items-center gap-4">
+            <i class="devicon-tailwindcss-plain text-5xl text-white/70 group-hover:text-[#06B6D4] transition-all duration-300"></i>
+            <span class="text-sm font-medium text-white/60 group-hover:text-white transition-colors">Tailwind</span>
+          </div>
+        </div>
+        <div class="tech-item group relative bg-white/5 hover:bg-white/10 rounded-xl p-6 transition-all duration-300 hover:-translate-y-2 border border-white/5 hover:border-accent/30">
+          <div class="flex flex-col items-center gap-4">
+            <i class="devicon-nodejs-plain text-5xl text-white/70 group-hover:text-[#339933] transition-all duration-300"></i>
+            <span class="text-sm font-medium text-white/60 group-hover:text-white transition-colors">Node.js</span>
+          </div>
+        </div>
+        <div class="tech-item group relative bg-white/5 hover:bg-white/10 rounded-xl p-6 transition-all duration-300 hover:-translate-y-2 border border-white/5 hover:border-accent/30">
+          <div class="flex flex-col items-center gap-4">
+            <i class="devicon-python-plain text-5xl text-white/70 group-hover:text-[#3776AB] transition-all duration-300"></i>
+            <span class="text-sm font-medium text-white/60 group-hover:text-white transition-colors">Python</span>
+          </div>
+        </div>
+        <div class="tech-item group relative bg-white/5 hover:bg-white/10 rounded-xl p-6 transition-all duration-300 hover:-translate-y-2 border border-white/5 hover:border-accent/30">
+          <div class="flex flex-col items-center gap-4">
+            <i class="devicon-postgresql-plain text-5xl text-white/70 group-hover:text-[#336791] transition-all duration-300"></i>
+            <span class="text-sm font-medium text-white/60 group-hover:text-white transition-colors">PostgreSQL</span>
+          </div>
+        </div>
+        <div class="tech-item group relative bg-white/5 hover:bg-white/10 rounded-xl p-6 transition-all duration-300 hover:-translate-y-2 border border-white/5 hover:border-accent/30">
+          <div class="flex flex-col items-center gap-4">
+            <i class="devicon-mongodb-plain text-5xl text-white/70 group-hover:text-[#47A248] transition-all duration-300"></i>
+            <span class="text-sm font-medium text-white/60 group-hover:text-white transition-colors">MongoDB</span>
+          </div>
+        </div>
+        <div class="tech-item group relative bg-white/5 hover:bg-white/10 rounded-xl p-6 transition-all duration-300 hover:-translate-y-2 border border-white/5 hover:border-accent/30">
+          <div class="flex flex-col items-center gap-4">
+            <i class="devicon-figma-plain text-5xl text-white/70 group-hover:text-[#F24E1E] transition-all duration-300"></i>
+            <span class="text-sm font-medium text-white/60 group-hover:text-white transition-colors">Figma</span>
+          </div>
+        </div>
+        <div class="tech-item group relative bg-white/5 hover:bg-white/10 rounded-xl p-6 transition-all duration-300 hover:-translate-y-2 border border-white/5 hover:border-accent/30">
+          <div class="flex flex-col items-center gap-4">
+            <i class="devicon-git-plain text-5xl text-white/70 group-hover:text-[#F05032] transition-all duration-300"></i>
+            <span class="text-sm font-medium text-white/60 group-hover:text-white transition-colors">Git</span>
+          </div>
+        </div>
+        <div class="tech-item group relative bg-white/5 hover:bg-white/10 rounded-xl p-6 transition-all duration-300 hover:-translate-y-2 border border-white/5 hover:border-accent/30">
+          <div class="flex flex-col items-center gap-4">
+            <i class="devicon-docker-plain text-5xl text-white/70 group-hover:text-[#2496ED] transition-all duration-300"></i>
+            <span class="text-sm font-medium text-white/60 group-hover:text-white transition-colors">Docker</span>
+          </div>
+        </div>
+        <div class="tech-item group relative bg-white/5 hover:bg-white/10 rounded-xl p-6 transition-all duration-300 hover:-translate-y-2 border border-white/5 hover:border-accent/30">
+          <div class="flex flex-col items-center gap-4">
+            <i class="devicon-amazonwebservices-original text-5xl text-white/70 group-hover:text-[#FF9900] transition-all duration-300"></i>
+            <span class="text-sm font-medium text-white/60 group-hover:text-white transition-colors">AWS</span>
+          </div>
+        </div>
+        <div class="tech-item group relative bg-white/5 hover:bg-white/10 rounded-xl p-6 transition-all duration-300 hover:-translate-y-2 border border-white/5 hover:border-accent/30">
+          <div class="flex flex-col items-center gap-4">
+            <i class="devicon-vscode-plain text-5xl text-white/70 group-hover:text-[#007ACC] transition-all duration-300"></i>
+            <span class="text-sm font-medium text-white/60 group-hover:text-white transition-colors">VS Code</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="overflow-hidden py-6 border-y border-white/5 bg-white/[0.02]">
+      <div class="animate-marquee-reverse whitespace-nowrap flex">
+        <span class="mx-8 text-sm font-bold tracking-[0.3em] uppercase text-white/30">UI/UX DESIGN</span>
+        <span class="mx-8 text-sm font-bold tracking-[0.3em] uppercase text-white/30">FULL-STACK</span>
+        <span class="mx-8 text-sm font-bold tracking-[0.3em] uppercase text-white/30">CREATIVE FRONTEND</span>
+        <span class="mx-8 text-sm font-bold tracking-[0.3em] uppercase text-white/30">SWISS DESIGN</span>
+        <span class="mx-8 text-sm font-bold tracking-[0.3em] uppercase text-white/30">SYSTEM ENGINEERING</span>
+        <span class="mx-8 text-sm font-bold tracking-[0.3em] uppercase text-white/30">HIGH-PERFORMANCE</span>
+        <span class="mx-8 text-sm font-bold tracking-[0.3em] uppercase text-white/30">UI/UX DESIGN</span>
+        <span class="mx-8 text-sm font-bold tracking-[0.3em] uppercase text-white/30">FULL-STACK</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section id="contact" class="relative py-32 lg:py-48 overflow-hidden">
+    <div class="absolute inset-0 z-0 animate-gradient" style="background: linear-gradient(160deg, #03007a 0%, #1d4ed8 25%, #4338ca 50%, #7c3aed 70%, #a5b4fc 90%, #818cf8 100%); clip-path: polygon(0 0, 60% 0, 40% 100%, 0% 100%);"></div>
+    <div class="absolute top-1/2 right-1/4 -translate-y-1/2 w-96 h-96 bg-accent/20 rounded-full blur-[150px]"></div>
+
+    <div class="relative z-10 max-w-7xl mx-auto px-6 lg:px-16">
+      <div class="max-w-3xl">
+        <div class="flex items-center gap-4 mb-8 reveal">
+          <div class="w-12 h-px bg-white"></div>
+          <span class="text-white text-xs font-bold tracking-[0.3em] uppercase">Contacto</span>
+        </div>
+
+        <h2 class="mb-8">
+          <span class="block text-5xl sm:text-6xl lg:text-7xl xl:text-8xl font-black uppercase tracking-tighter leading-none reveal">¿Listo para</span>
+          <span class="block text-5xl sm:text-6xl lg:text-7xl xl:text-8xl font-black uppercase tracking-tighter leading-none reveal">hacer que</span>
+          <span class="block text-5xl sm:text-6xl lg:text-7xl xl:text-8xl font-black uppercase tracking-tighter leading-none reveal">digan</span>
+          <span class="block text-5xl sm:text-6xl lg:text-7xl xl:text-8xl font-black uppercase tracking-tighter text-outline reveal">wow<span class="text-accent">?</span></span>
+        </h2>
+
+        <p class="text-xl text-white/70 mb-12 max-w-lg reveal">Cuéntame tu idea. Juntos la haremos realidad.</p>
+
+        <div class="flex flex-wrap gap-4 reveal">
+          <a href="https://wa.me/584243840126?text=Hola%20Eddy%2C%20vi%20tu%20portafolio%20y%20me%20gustaría%20hablar%20sobre%20un%20proyecto." target="_blank" rel="noopener noreferrer" class="skew-btn inline-flex items-center gap-3 bg-[#25D366] hover:bg-[#128C7E] px-8 py-5 text-sm font-bold tracking-[0.15em] uppercase transition-all duration-300 group">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            <span>WhatsApp</span>
+            <svg class="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+          </a>
+          <a href="mailto:eddyjosuetr@gmail.com" class="skew-btn inline-flex items-center gap-3 bg-white/10 hover:bg-white/20 border border-white/30 px-8 py-5 text-sm font-bold tracking-[0.15em] uppercase transition-all duration-300 group">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+            <span>Email</span>
+            <svg class="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="absolute bottom-8 right-6 lg:right-16 flex items-center gap-6 reveal">
+      <a href="https://github.com/eddyjosuetr-coder" target="_blank" rel="noopener noreferrer" class="text-white/40 hover:text-white transition-colors">
+        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.604-3.369-1.341-3.369-1.341-.454-1.155-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836c.85.004 1.705.115 2.504.337 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.741 0 .267.18.578.688.48C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>
+      </a>
+      <a href="https://linkedin.com/in/eddy-trejo-180002315/" target="_blank" rel="noopener noreferrer" class="text-white/40 hover:text-white transition-colors">
+        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+      </a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="relative py-8 border-t border-white/5">
+    <div class="max-w-7xl mx-auto px-6 lg:px-16">
+      <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+        <p class="text-sm text-white/40 tracking-wider">© 2026 Eddy Trejo — Ingeniería · Diseño · Impacto</p>
+        <p class="text-sm text-white/40 tracking-wider">Maracay, Venezuela</p>
+        <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="flex items-center gap-2 text-sm text-white/40 hover:text-accent transition-colors group">
+          <span class="tracking-wider">Volver arriba</span>
+          <svg class="w-4 h-4 transition-transform group-hover:-translate-y-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <a href="https://wa.me/584243840126?text=Hola%20Eddy%2C%20vi%20tu%20portafolio%20y%20me%20gustaría%20hablar%20sobre%20un%20proyecto." target="_blank" rel="noopener noreferrer" class="fixed bottom-6 right-6 z-50 w-14 h-14 bg-[#25D366] hover:bg-[#128C7E] rounded-full flex items-center justify-center shadow-lg shadow-[#25D366]/30 hover:shadow-[#25D366]/50 transition-all duration-300 hover:scale-110" aria-label="WhatsApp">
+      <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+    </a>
+  </footer>
+
+  <!-- Project Detail Modal -->
+  <div id="project-modal" class="project-modal-overlay">
+    <button id="modal-close" class="modal-close-btn">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+    </button>
+    
+    <div class="project-modal-content">
+      <!-- Hero Section - Haim Benisty Style -->
+      <div class="relative min-h-[70vh] flex items-end">
+        <img id="modal-hero-img" src="" alt="" class="absolute inset-0 w-full h-full object-cover">
+        <div class="absolute inset-0 bg-gradient-to-t from-dark via-dark/50 to-transparent"></div>
+        <div class="relative w-full p-8 lg:p-16 pb-16">
+          <div class="max-w-6xl mx-auto">
+            <span id="modal-category" class="text-white/60 text-sm tracking-[0.2em] uppercase mb-4 block"></span>
+            <h1 id="modal-title" class="text-5xl sm:text-7xl lg:text-9xl font-black uppercase tracking-tighter mb-4"></h1>
+            <p id="modal-subtitle" class="text-xl lg:text-2xl text-white/80 font-light"></p>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Content - Haim Benisty Style -->
+      <div class="max-w-6xl mx-auto px-6 lg:px-16 py-20 lg:py-32">
+        
+        <!-- The Challenge -->
+        <div class="mb-24 lg:mb-32">
+          <h2 class="text-xs tracking-[0.3em] uppercase text-white/50 mb-6">The Challenge</h2>
+          <p id="modal-challenge" class="text-2xl lg:text-4xl font-light leading-relaxed text-white/90 max-w-4xl"></p>
+        </div>
+        
+        <!-- The Solution -->
+        <div class="mb-24 lg:mb-32">
+          <h2 class="text-xs tracking-[0.3em] uppercase text-white/50 mb-6">The Solution</h2>
+          <div class="grid lg:grid-cols-2 gap-12 lg:gap-24">
+            <div>
+              <h3 class="text-xl font-semibold mb-4 text-white">Branding</h3>
+              <p class="text-white/60">Logo design, font & color palette</p>
+            </div>
+            <div>
+              <h3 class="text-xl font-semibold mb-4 text-white">Website</h3>
+              <p class="text-white/60">UX, UI & developing a corporate website</p>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Color Palette -->
+        <div class="mb-24 lg:mb-32">
+          <h2 class="text-xs tracking-[0.3em] uppercase text-white/50 mb-8">Color Palette</h2>
+          <div class="flex flex-wrap gap-6" id="modal-colors">
+            <!-- Colors injected by JS -->
+          </div>
+        </div>
+        
+        <!-- Website Preview -->
+        <div class="mb-24 lg:mb-32">
+          <h2 class="text-xs tracking-[0.3em] uppercase text-white/50 mb-8">Website Preview</h2>
+          <!-- Main Website Screenshot (no device frame) -->
+          <div class="relative rounded-2xl overflow-hidden border border-white/10 shadow-2xl shadow-black/50 mb-12">
+            <img id="modal-web-img" src="" alt="Website preview" class="w-full">
+          </div>
+        </div>
+        
+        <!-- Responsive Devices -->
+        <div class="mb-24 lg:mb-32">
+          <h2 class="text-xs tracking-[0.3em] uppercase text-white/50 mb-8">Responsive Design</h2>
+          <div class="grid md:grid-cols-3 gap-8 items-end">
+            <!-- Desktop -->
+            <div class="text-center">
+              <p class="text-xs text-white/40 uppercase tracking-wider mb-4">Desktop</p>
+              <img id="modal-desktop-img" src="" alt="Desktop view" class="w-full rounded-lg shadow-lg">
+            </div>
+            <!-- Tablet -->
+            <div class="text-center">
+              <p class="text-xs text-white/40 uppercase tracking-wider mb-4">Tablet</p>
+              <img id="modal-tablet-img" src="" alt="Tablet view" class="w-full rounded-lg shadow-lg">
+            </div>
+            <!-- Mobile -->
+            <div class="text-center">
+              <p class="text-xs text-white/40 uppercase tracking-wider mb-4">Mobile</p>
+              <img id="modal-mobile-img" src="" alt="Mobile view" class="w-full max-w-[200px] mx-auto rounded-lg shadow-lg">
+            </div>
+          </div>
+        </div>
+        
+        <!-- Technologies -->
+        <div class="mb-24 lg:mb-32">
+          <h2 class="text-xs tracking-[0.3em] uppercase text-white/50 mb-8">Technologies</h2>
+          <div id="modal-tech" class="flex flex-wrap gap-4">
+            <!-- Tech tags injected by JS -->
+          </div>
+        </div>
+        
+        <!-- Features -->
+        <div class="mb-24 lg:mb-32">
+          <h2 class="text-xs tracking-[0.3em] uppercase text-white/50 mb-8">Key Features</h2>
+          <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8" id="modal-features">
+            <!-- Features injected by JS -->
+          </div>
+        </div>
+        
+        <!-- Testimonial -->
+        <div class="mb-24 lg:mb-32 text-center">
+          <blockquote class="text-2xl lg:text-4xl font-light italic text-white/80 max-w-3xl mx-auto mb-6">
+            "<span id="modal-testimonial">The website exceeded all our expectations. Professional, fast, and beautiful.</span>"
+          </blockquote>
+          <cite class="text-white/50 not-italic">
+            <span id="modal-testimonial-author">Client Name</span>, <span id="modal-testimonial-role">CEO</span>
+          </cite>
+        </div>
+        
+        <!-- Project Navigation -->
+        <div class="pt-12 border-t border-white/10 flex justify-between items-center">
+          <button id="modal-prev" class="flex items-center gap-4 text-white/60 hover:text-white transition-colors group">
+            <svg class="w-6 h-6 transform group-hover:-translate-x-2 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+            <div class="text-left">
+              <span class="text-xs tracking-wider uppercase block">← Prev</span>
+              <span id="modal-prev-title" class="text-lg font-semibold">Previous Project</span>
+            </div>
+          </button>
+          <button id="modal-next" class="flex items-center gap-4 text-white/60 hover:text-white transition-colors group">
+            <div class="text-right">
+              <span class="text-xs tracking-wider uppercase block">Next →</span>
+              <span id="modal-next-title" class="text-lg font-semibold">Next Project</span>
+            </div>
+            <svg class="w-6 h-6 transform group-hover:translate-x-2 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="assets/js/main.js"></script>
+</body>
+</html>
